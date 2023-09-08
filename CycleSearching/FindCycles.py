@@ -178,7 +178,7 @@ def _ReduceCycles(cycles):
         cycles[i].sort()
     unique=[]
     for i in cycles:
-        if i not in unique:
+        if i not in unique and len(i)>=3:
             unique.append(i)
     return unique
 
