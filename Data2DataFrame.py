@@ -26,7 +26,7 @@ for n in range(6,26):
                       'energy':[data[id]['energy']],
                       'id':[id],
                       '<roh>':[np.average(data[id]['roh'])],
-                      '<ahoh>':[np.average(data[id]['roh'])],
+                      '<ahoh>':[np.average(data[id]['ahoh'])],
                       '<roo>':[np.average(data[id]['roo'])],
                       '<aoho>':[np.average(data[id]['aoho'])],
                       '<dhoox>':[ np.average(data[id]['dhoox'])],

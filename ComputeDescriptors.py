@@ -86,7 +86,7 @@ def twoBody(waters,edges):
             of=o1-o2
         elif ind==3:
             f=h22-o2
-            x=(h11-h12)/2-o1
+            x=(h11/np.linalg.norm(h11)+h12/np.linalg.norm(h12))/2-o1
             ox=o2-o1
             of=o1-o2
         don=np.cross(f,of)
@@ -102,6 +102,7 @@ def threeBodyandTet(waters,G):
         oc=np.array([float(waters[i].split()[0]), float(waters[i].split()[1]), float(waters[i].split()[2])])
         atemp=[]
         neighbors=list(nx.neighbors(G,str(i*3+1)))
+        k = (len(neighbors))
         on=[]
         for n in neighbors:
             j=int((int(n)-1)/3)
@@ -115,7 +116,7 @@ def threeBodyandTet(waters,G):
         for a in atemp:
             aooo.append(a)
             t+=(np.cos(a/180*np.pi)+1/3)**2
-        tet.append(1-t)
+        if k>1: tet.append(1-9/(2*k*(k-1))*t)
     return aooo,tet
 
 def getAdjs(G):
@@ -137,15 +138,15 @@ def getAdjs(G):
         if label == "a3d2": adjs['AAADD'] += 1
     return adjs
 
-def rg(waters):
+def rg(waters,mO=15.999,mH=1.00784):
     com=np.zeros(3)
     mass=0
     for water in waters:
         entry=water.split()
-        o = np.array([float(entry[0]), float(entry[1]), float(entry[2])])*16
-        h1 = np.array([float(entry[4]), float(entry[5]), float(entry[6])])*1
-        h2 = np.array([float(entry[8]), float(entry[9]), float(entry[10])])*1
-        mass+=18
+        o = np.array([float(entry[0]), float(entry[1]), float(entry[2])])*mO
+        h1 = np.array([float(entry[4]), float(entry[5]), float(entry[6])])*mH
+        h2 = np.array([float(entry[8]), float(entry[9]), float(entry[10])])*mH
+        mass+=mO+mH+mH
         com+=o+h1+h2
     com/=mass
     rg=0
